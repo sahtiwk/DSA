@@ -1,52 +1,115 @@
+This is a great problem to document. It’s a classic application of **Kadane's Algorithm**, modified to track the indices of the subarray.
 
-# Maximum Subarray
+I've structured this markdown file to be GitHub-ready, including a clear explanation of the logic and your C++ implementation (maintaining your requested `using namespace std;` convention).
 
-## Problem Statement
+---
 
-Given an integer array `nums`, find the subarray with the largest sum and return its sum.
+```markdown
+# Maximum Subarray Sum (Kadane's Algorithm)
+
+## Problem Description
+Given an array of integers, find the maximum subarray sum. If multiple subarrays give the same sum, consider the lexicographical smallest indices (the one that starts earlier and ends earlier).
 
 ### Constraints
-- `1 <= nums.length <= 10^5`
-- `-10^4 <= nums[i] <= 10^4`
+- $1 \le T \le 100$
+- $1 \le N \le 10^4$
+- $-10^3 \le A[i] \le 10^3$
 
-## Examples
+### Example
+**Input:**
 
-### Example 1
-**Input:** `nums = [-2,1,-3,4,-1,2,1,-5,4]`  
-**Output:** `6`  
-**Explanation:** The subarray `[4,-1,2,1]` has the largest sum 6.
-
-### Example 2
-**Input:** `nums = [1]`  
-**Output:** `1`  
-**Explanation:** The subarray `[1]` has the largest sum 1.
-
-### Example 3
-**Input:** `nums = [5,4,-1,7,8]`  
-**Output:** `23`  
-**Explanation:** The subarray `[5,4,-1,7,8]` has the largest sum 23.
-
-## Solution
-
-**Approach:** Kadane's Algorithm (Dynamic Programming)
-
-```cpp
-class Solution {
-public:
-    int maxSubArray(vector<int>& nums) {
-        int curr = 0, maxtilNow = INT_MIN; 
-        for(int num : nums) {
-            curr = max(num, curr + num); 
-            maxtilNow = max(maxtilNow, curr); 
-        }
-        return maxtilNow;
-    }
-};
 ```
 
-### Explanation
-- **`curr`**: Tracks the maximum sum ending at the current position
-- **`maxtilNow`**: Stores the overall maximum sum found so far
-- At each element, we decide whether to start a new subarray or extend the existing one
-- Time Complexity: **O(n)**
-- Space Complexity: **O(1)**
+9 -24 0 28 28 55 -31 -27 -45 -24
+
+```
+**Output:**
+
+```
+
+111 1 4
+
+```
+
+---
+
+## Logic Explanation
+The solution uses **Kadane's Algorithm**, which runs in $O(N)$ time. 
+
+1. **Current Sum tracking:** We iterate through the array, adding each element to `sum`.
+2. **Reset Condition:** If `sum` becomes negative, it's better to start a new subarray from the current element rather than carrying over a negative prefix. 
+3. **Maximum Sum tracking:** Every time `sum` exceeds `max_sum`, we update our answer and record the `ansstart` and `ansend` indices.
+4. **Lexicographical Requirement:** By updating the `max_sum` only when the new sum is strictly greater (`sum > max_sum`), we naturally preserve the earliest occurring subarray in case of ties.
+
+---
+
+## Solution Code (C++)
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+/**
+ * Problem: Maximum Subarray Sum with Indices
+ * Technique: Kadane's Algorithm
+ * Time Complexity: O(N)
+ * Space Complexity: O(N) to store the array
+ */
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int T; 
+    cin >> T; 
+
+    while(T--) {
+        int N; 
+        cin >> N;
+        
+        vector<int> ar(N); 
+        for(int i = 0; i < N; i++) cin >> ar[i]; 
+
+        int ansstart = 0, ansend = 0;
+        long long max_sum = LLONG_MIN;
+        long long sum = 0; 
+        int start = 0;
+
+        for(int i = 0; i < N; i++) {
+            // If the current prefix sum is negative, start fresh at current index
+            if(sum < 0) {
+                sum = ar[i];
+                start = i; 
+            } else {
+                sum += ar[i];
+            }
+
+            // Update global maximum and track indices
+            if(sum > max_sum) {
+                max_sum = sum; 
+                ansstart = start; 
+                ansend = i; 
+            }
+        }
+
+        cout << max_sum << " " << ansstart << " " << ansend << endl;
+    } 
+    return 0;
+}
+
+```
+
+---
+
+## Complexity Analysis
+
+* **Time Complexity:**  per test case, as we traverse the array exactly once.
+* **Space Complexity:**  to store the input array.
+
+```
+
+---
+
+Would you like me to explain how to optimize this to **$O(1)$ space** by processing the input numbers as they are read, instead of storing them in a vector?
+
+```
