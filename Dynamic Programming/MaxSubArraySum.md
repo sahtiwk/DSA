@@ -1,9 +1,3 @@
-This is a great problem to document. It’s a classic application of **Kadane's Algorithm**, modified to track the indices of the subarray.
-
-I've structured this markdown file to be GitHub-ready, including a clear explanation of the logic and your C++ implementation (maintaining your requested `using namespace std;` convention).
-
----
-
 ```markdown
 # Maximum Subarray Sum (Kadane's Algorithm)
 
